@@ -1,4 +1,4 @@
-package com.yx.test.threadlocal.atomic;
+package com.yx.test.atomic;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
