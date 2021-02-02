@@ -10,16 +10,17 @@ public class SingletonLazy2 {
 
     private static SingletonLazy2 instance;
 
-    public  synchronized  static SingletonLazy2 getInstance() {
+    public synchronized static SingletonLazy2 getInstance() {
         if (instance == null) {
             instance = new SingletonLazy2();
         }
         return instance;
     }
 
-    private SingletonLazy2(){
+    private SingletonLazy2() {
 
     }
+
     // 实现对应的方法
     public void sayHi() {
         // 输入对应的内容地址对象

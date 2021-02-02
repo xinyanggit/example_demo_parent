@@ -10,16 +10,17 @@ public class SingletonLazy3 {
 
     private static SingletonLazy3 instance;
 
-    public   static SingletonLazy3 getInstance() {
+    public static SingletonLazy3 getInstance() {
         if (instance == null) {
             //都排队到这里了，就会执行多次新建对象
-            synchronized(SingletonLazy3.class){
-              instance = new SingletonLazy3();
+            synchronized (SingletonLazy3.class) {
+                instance = new SingletonLazy3();
             }
         }
         return instance;
     }
-    private SingletonLazy3(){
+
+    private SingletonLazy3() {
 
     }
 

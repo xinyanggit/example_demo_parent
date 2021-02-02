@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TheadPoolCountDownLatch {
 
-    public static final int  THEAD_COUNT =  3 ;
+    public static final int THEAD_COUNT = 3;
     ExecutorService executorService = Executors.newFixedThreadPool(THEAD_COUNT);
 
     public static void main(String[] args) throws InterruptedException {
@@ -27,6 +27,7 @@ public class TheadPoolCountDownLatch {
 
     /**
      * countdownLatch 完成 ,解决了需要固定时间问题
+     *
      * @return
      * @throws InterruptedException
      */
@@ -34,18 +35,18 @@ public class TheadPoolCountDownLatch {
         long start = System.currentTimeMillis();
         CountDownLatch countDownLatch = new CountDownLatch(THEAD_COUNT);
         Set<Integer> prices = Collections.synchronizedSet(new HashSet<Integer>());
-        executorService.submit( new Task(prices,123,countDownLatch));
-        executorService.submit( new  Task(prices,456,countDownLatch));
-        executorService.submit( new  Task(prices,789,countDownLatch));
+        executorService.submit(new Task(prices, 123, countDownLatch));
+        executorService.submit(new Task(prices, 456, countDownLatch));
+        executorService.submit(new Task(prices, 789, countDownLatch));
 //        countDownLatch.await();
         // 设置超时处理时间
         countDownLatch.await(3, TimeUnit.MINUTES);
         long end = System.currentTimeMillis();
-        System.out.println("完成消费："+(end-start)/1000 +" s");
+        System.out.println("完成消费：" + (end - start) / 1000 + " s");
         return prices;
     }
 
-    private class Task implements Runnable{
+    private class Task implements Runnable {
 
         private Set<Integer> prices;
         private Integer productId;
@@ -59,11 +60,11 @@ public class TheadPoolCountDownLatch {
 
         @Override
         public void run() {
-            int  price = 0 ;
-            double random = Math.random()*1000;
+            int price = 0;
+            double random = Math.random() * 1000;
             try {
                 Thread.sleep((long) random);
-                price = (int) (Math.random()*400);
+                price = (int) (Math.random() * 400);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

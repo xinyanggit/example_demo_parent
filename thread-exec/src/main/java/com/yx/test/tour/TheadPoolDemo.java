@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 
 /**
  * 旅游公司-多线程实现
+ *
  * @author yangxin@webull.com
  * @date 2020年12月09日
  * @time 9:14 上午
@@ -28,17 +29,17 @@ public class TheadPoolDemo {
         long start = System.currentTimeMillis();
 
         Set<Integer> prices = Collections.synchronizedSet(new HashSet<Integer>());
-        executorService.submit( new Task(prices,123));
-        executorService.submit( new Task(prices,456));
-        executorService.submit( new Task(prices,789));
+        executorService.submit(new Task(prices, 123));
+        executorService.submit(new Task(prices, 456));
+        executorService.submit(new Task(prices, 789));
         Thread.sleep(3000);
         long end = System.currentTimeMillis();
-        System.out.println("完成消费："+(end-start)/1000 +" s");
+        System.out.println("完成消费：" + (end - start) / 1000 + " s");
         //有一个问题，无论task任务执行的时间长短，都是休眠3秒钟。如果响应慢，里面可能没有数据
         return prices;
     }
 
-    private class Task implements Runnable{
+    private class Task implements Runnable {
 
         private Set<Integer> prices;
         private Integer productId;
@@ -50,11 +51,11 @@ public class TheadPoolDemo {
 
         @Override
         public void run() {
-            int  price = 0 ;
-            double random = Math.random()*1000;
+            int price = 0;
+            double random = Math.random() * 1000;
             try {
                 Thread.sleep((long) random);
-                price = (int) (Math.random()*400);
+                price = (int) (Math.random() * 400);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

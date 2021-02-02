@@ -11,10 +11,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class CompletableFutureDemo {
 
-    public static void main(String[] args) throws  Exception, InterruptedException {
+    public static void main(String[] args) throws Exception, InterruptedException {
         orderProcess();
     }
-    public static void sleep(Long millis){
+
+    public static void sleep(Long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -27,7 +28,7 @@ public class CompletableFutureDemo {
      * 2、查询酒店
      * 3、汇总
      */
-    public static void orderProcess(){
+    public static void orderProcess() {
         CompletableFuture<String> orderAir = CompletableFuture.supplyAsync(() -> {
             System.out.println("查询航班");
             sleep(1000L);

@@ -46,7 +46,7 @@ class TheadLocalHolder {
     public static ThreadLocal<SimpleDateFormat> dateFormatThreadLocal =
             ThreadLocal.withInitial(() -> new SimpleDateFormat("mm:ss"));
 
-    public static void chear(){
+    public static void chear() {
         dateFormatThreadLocal.remove();
     }
 

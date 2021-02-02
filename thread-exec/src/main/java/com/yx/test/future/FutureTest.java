@@ -41,28 +41,28 @@ public class FutureTest {
         return "downloadUrl:" + nextInt;
     }
 
-   /* public static void main(String[] args) throws ExecutionException, InterruptedException {
-        for (int i = 0; i < 100; i++) {
-            executorService.submit(() -> {
-                CompletableFuture<String> stringCompletableFuture = CompletableFuture.supplyAsync(() -> downloadImage()).thenApply((str -> downloadUrl(str)));
-                try {
-                    System.out.println(stringCompletableFuture.get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                ;
-            });
-        }
-        String now = CompletableFuture.completedFuture("message").thenApply(str -> str.toUpperCase()).getNow("error");
-        System.out.println(now);
-    }*/
-   public static void main(String[] args) throws ExecutionException,  Exception {
-      // normal();
-      allOfDemo();
+    /* public static void main(String[] args) throws ExecutionException, InterruptedException {
+         for (int i = 0; i < 100; i++) {
+             executorService.submit(() -> {
+                 CompletableFuture<String> stringCompletableFuture = CompletableFuture.supplyAsync(() -> downloadImage()).thenApply((str -> downloadUrl(str)));
+                 try {
+                     System.out.println(stringCompletableFuture.get());
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 } catch (ExecutionException e) {
+                     e.printStackTrace();
+                 }
+                 ;
+             });
+         }
+         String now = CompletableFuture.completedFuture("message").thenApply(str -> str.toUpperCase()).getNow("error");
+         System.out.println(now);
+     }*/
+    public static void main(String[] args) throws ExecutionException, Exception {
+        // normal();
+        allOfDemo();
 //       andOfDemo();
-   }
+    }
 
     /**
      * 1、首先异步调用cars 获取car list，
@@ -72,7 +72,7 @@ public class FutureTest {
      **/
     static List<Long> carIds = new ArrayList<>(1000);
 
-    public static void theadCacl(){
+    public static void theadCacl() {
         CompletableFuture future = CompletableFuture.supplyAsync(() -> {
             return "欢迎关注 ";
         }).thenApply(t -> {
@@ -84,6 +84,7 @@ public class FutureTest {
             System.out.println(t);
         });
     }
+
     public static void allOfDemo() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             sleepRandom();
@@ -107,7 +108,7 @@ public class FutureTest {
     }
 
 
-    public static  void andOfDemo() throws ExecutionException, InterruptedException {
+    public static void andOfDemo() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             sleepRandom();
             return "欢迎关注";
@@ -126,33 +127,34 @@ public class FutureTest {
 
     }
 
-    public static void sleepRandom(){
-        int i = RandomUtils.nextInt(0,10);
+    public static void sleepRandom() {
+        int i = RandomUtils.nextInt(0, 10);
         System.out.println(i);
         try {
-            Thread.sleep(i*100);
+            Thread.sleep(i * 100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-    public static  void normal(){
+
+    public static void normal() {
 
         long startDate = System.currentTimeMillis();
         List<Car> carList = carIds.stream().map(id ->
-               getCarById(id)
+                getCarById(id)
         ).collect(Collectors.toList());
         carList.stream().peek(car -> car.setScore(rating(car))).forEach(System.out::println);
-        long cost =  System.currentTimeMillis()-startDate;
-        System.out.println("花费时间："+cost/1000+" s");
+        long cost = System.currentTimeMillis() - startDate;
+        System.out.println("花费时间：" + cost / 1000 + " s");
     }
 
 
     //汽车对象
-    static class Car{
+    static class Car {
         private Long carId;
-        private String score ;
+        private String score;
 
-        public Car(Long carId){
+        public Car(Long carId) {
             this.carId = carId;
         }
 
@@ -173,31 +175,32 @@ public class FutureTest {
         }
     }
 
-    public static String rating(Car car){  try {
-        Thread.sleep(1000);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-        return "car"+car.getCarId();
-    }
-
-    public static CompletionStage  getCompletionCarById(Long id){
+    public static String rating(Car car) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-       return  CompletableFuture.completedFuture(new Car(id));
+        return "car" + car.getCarId();
     }
-    public static Car  getCarById(Long id){
+
+    public static CompletionStage getCompletionCarById(Long id) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return   new Car(id);
+        return CompletableFuture.completedFuture(new Car(id));
     }
 
+    public static Car getCarById(Long id) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new Car(id);
+    }
 
 
 }

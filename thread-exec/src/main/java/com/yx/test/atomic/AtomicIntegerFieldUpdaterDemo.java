@@ -2,17 +2,19 @@ package com.yx.test.atomic;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-/**测试 AtomicIntegerFieldUpdater int 使其线程安全
+/**
+ * 测试 AtomicIntegerFieldUpdater int 使其线程安全
+ *
  * @date 2020年12月05日
  * @time 3:40 下午
  * @since JDK1.8
  */
-public class AtomicIntegerFieldUpdaterDemo  implements Runnable{
-    static Score math ;
-    static Score computer ;
+public class AtomicIntegerFieldUpdaterDemo implements Runnable {
+    static Score math;
+    static Score computer;
 
 
-    public static AtomicIntegerFieldUpdater<Score> scoreUpdater = AtomicIntegerFieldUpdater.newUpdater(Score.class,"score");
+    public static AtomicIntegerFieldUpdater<Score> scoreUpdater = AtomicIntegerFieldUpdater.newUpdater(Score.class, "score");
 
     @Override
     public void run() {
@@ -28,7 +30,7 @@ public class AtomicIntegerFieldUpdaterDemo  implements Runnable{
 
     }
 
-    public static class Score{
+    public static class Score {
         volatile int score;
     }
 
@@ -41,6 +43,6 @@ public class AtomicIntegerFieldUpdaterDemo  implements Runnable{
         t1.start();
         t2.start();
         System.out.println("normal " + computer.score);
-        System.out.println("升级之后的 " +math.score);
+        System.out.println("升级之后的 " + math.score);
     }
 }
