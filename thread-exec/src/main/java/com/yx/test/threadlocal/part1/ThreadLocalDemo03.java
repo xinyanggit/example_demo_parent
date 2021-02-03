@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 /**
  * 判断
  *
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2020年11月17日
  * @time 4:55 下午
  * @since JDK1.8

@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2020年12月08日
  * @time 11:58 上午
  * @since JDK1.8

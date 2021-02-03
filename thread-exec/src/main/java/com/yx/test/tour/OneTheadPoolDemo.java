@@ -3,47 +3,39 @@ package com.yx.test.tour;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
- * 旅游平台处理问题
- * CompletableFuture 处理能力更强些
+ * 旅游公司-多线程实现
  *
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2020年12月09日
- * @time 9:37 上午
+ * @time 9:14 上午
  * @since JDK1.8
  */
-public class CompletableFutureDemo {
+public class OneTheadPoolDemo {
+
+    ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     public static void main(String[] args) throws InterruptedException {
-        CompletableFutureDemo theadPoolCountDownLatch = new CompletableFutureDemo();
-        Set<Integer> prices = theadPoolCountDownLatch.getPrices();
+        OneTheadPoolDemo oneTheadPoolDemo = new OneTheadPoolDemo();
+        Set<Integer> prices = oneTheadPoolDemo.getPrices();
         System.out.println(prices);
     }
 
-    /**
-     * @return
-     * @throws InterruptedException
-     */
     private Set<Integer> getPrices() throws InterruptedException {
         long start = System.currentTimeMillis();
+
         Set<Integer> prices = Collections.synchronizedSet(new HashSet<Integer>());
-        CompletableFuture<Void> p1 = CompletableFuture.runAsync(new Task(prices, 123));
-        CompletableFuture<Void> p2 = CompletableFuture.runAsync(new Task(prices, 456));
-        CompletableFuture<Void> p3 = CompletableFuture.runAsync(new Task(prices, 789));
-        //   CompletableFuture.allOf(p1,p2,p3).join();
-        CompletableFuture<Void> all = CompletableFuture.allOf(p1, p2, p3);
-        try {
-            // 设置超时处理时间
-            all.get(3, TimeUnit.MINUTES);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
+        executorService.submit(new Task(prices, 123));
+        executorService.submit(new Task(prices, 456));
+        executorService.submit(new Task(prices, 789));
+        Thread.sleep(3000);
+        //臃肿， 采用这种方式实现 定时的方式
         long end = System.currentTimeMillis();
         System.out.println("完成消费：" + (end - start) / 1000 + " s");
+        //有一个问题，无论task任务执行的时间长短，都是休眠3秒钟。如果响应慢，里面可能没有数据
         return prices;
     }
 
@@ -51,7 +43,6 @@ public class CompletableFutureDemo {
 
         private Set<Integer> prices;
         private Integer productId;
-
 
         public Task(Set<Integer> prices, Integer productId) {
             this.prices = prices;

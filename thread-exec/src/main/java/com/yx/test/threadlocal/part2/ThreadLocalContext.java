@@ -1,7 +1,7 @@
 package com.yx.test.threadlocal.part2;
 
 /**
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2021年02月03日
  * @time 2:13 下午
  * @since JDK1.8
@@ -11,6 +11,9 @@ public class ThreadLocalContext {
     public static void main(String[] args) {
         Filter filter = new Filter();
         filter.process();
+        // 需要调用 remove方法，防止内存泄漏
+        UserHoldContext.userContext.remove();
+        UserHoldContext.personContext.remove();
     }
 }
 class Filter{
@@ -19,6 +22,9 @@ class Filter{
         user.setName("this is yx do thing ,");
         UserHoldContext.userContext.set(user);
         System.out.println("process");
+        // 可以查看 ThreadLocal Thread ThreadLocalMap 对象之间的关系
+        Person person = new Person(1);
+        UserHoldContext.personContext.set(person);
         Service1 service1 = new Service1();
         service1.test1();
     }
@@ -54,6 +60,17 @@ class UserHoldContext {
         System.out.println("创建user对象");
         return new User();
     });
+    public static ThreadLocal<Person> personContext = new ThreadLocal<Person>();
+}
+class Person{
+    private int age;
+
+    public Person() {
+    }
+
+    public Person(int age) {
+        this.age = age;
+    }
 }
 
 class User {

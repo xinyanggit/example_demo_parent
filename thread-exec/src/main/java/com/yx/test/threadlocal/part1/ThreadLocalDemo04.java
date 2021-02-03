@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  * 重新练习一下ThreadLocal处理方式
  * 模拟一下 入参毫秒数，然后DateFormat格式化日期打印处理
  *
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2021年02月02日
  * @time 4:11 下午
  * @since JDK1.8

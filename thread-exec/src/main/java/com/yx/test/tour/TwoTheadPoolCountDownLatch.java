@@ -1,41 +1,48 @@
 package com.yx.test.tour;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
- * 旅游公司-多线程实现
- *
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2020年12月09日
- * @time 9:14 上午
+ * @time 9:37 上午
  * @since JDK1.8
  */
-public class TheadPoolDemo {
+public class TwoTheadPoolCountDownLatch {
 
-    ExecutorService executorService = Executors.newFixedThreadPool(3);
+    public static final int THEAD_COUNT = 3;
+    ExecutorService executorService = Executors.newFixedThreadPool(THEAD_COUNT);
 
     public static void main(String[] args) throws InterruptedException {
-        TheadPoolDemo theadPoolDemo = new TheadPoolDemo();
-        Set<Integer> prices = theadPoolDemo.getPrices();
+        TwoTheadPoolCountDownLatch theadPoolCountDownLatch = new TwoTheadPoolCountDownLatch();
+        Set<Integer> prices = theadPoolCountDownLatch.getPrices();
         System.out.println(prices);
     }
 
+    /**
+     * countdownLatch 完成 ,解决了需要固定时间问题
+     *
+     * @return
+     * @throws InterruptedException
+     */
     private Set<Integer> getPrices() throws InterruptedException {
         long start = System.currentTimeMillis();
-
+        CountDownLatch countDownLatch = new CountDownLatch(THEAD_COUNT);
         Set<Integer> prices = Collections.synchronizedSet(new HashSet<Integer>());
-        executorService.submit(new Task(prices, 123));
-        executorService.submit(new Task(prices, 456));
-        executorService.submit(new Task(prices, 789));
-        Thread.sleep(3000);
+        executorService.submit(new Task(prices, 123, countDownLatch));
+        executorService.submit(new Task(prices, 456, countDownLatch));
+        executorService.submit(new Task(prices, 789, countDownLatch));
+//        countDownLatch.await();
+        // 设置超时处理时间
+        countDownLatch.await(3, TimeUnit.MINUTES);
         long end = System.currentTimeMillis();
         System.out.println("完成消费：" + (end - start) / 1000 + " s");
-        //有一个问题，无论task任务执行的时间长短，都是休眠3秒钟。如果响应慢，里面可能没有数据
         return prices;
     }
 
@@ -43,10 +50,12 @@ public class TheadPoolDemo {
 
         private Set<Integer> prices;
         private Integer productId;
+        private CountDownLatch countDownLatch;
 
-        public Task(Set<Integer> prices, Integer productId) {
+        public Task(Set<Integer> prices, Integer productId, CountDownLatch countDownLatch) {
             this.prices = prices;
             this.productId = productId;
+            this.countDownLatch = countDownLatch;
         }
 
         @Override
@@ -59,6 +68,7 @@ public class TheadPoolDemo {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            countDownLatch.countDown();
             prices.add(price);
         }
     }

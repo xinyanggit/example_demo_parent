@@ -12,3 +12,7 @@
 其实这时候我们可以采用threadLocal进行透传,demo 如下
 com.yx.test.threadlocal.part2.ThreadLocalContext
 
+# Thread、ThreadLocalMap、ThreadLocal
+每个Thread中都有一个ThreadLocalMap对象，一个ThreadLocalMap对象中有多个ThreadLocal,
+key: ThreadLocal value 为存储的对象， 比如 User、Option
+

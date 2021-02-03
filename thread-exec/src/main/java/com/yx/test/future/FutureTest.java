@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2020年12月07日
  * @time 11:12 上午
  * @since JDK1.8
