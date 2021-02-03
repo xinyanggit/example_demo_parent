@@ -1,4 +1,4 @@
-package com.yx.test.threadlocal;
+package com.yx.test.threadlocal.part1;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

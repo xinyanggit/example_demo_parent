@@ -1,7 +1,9 @@
-package com.yx.test.threadlocal;
+package com.yx.test.threadlocal.part1;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,7 +17,9 @@ import java.util.concurrent.Executors;
  */
 public class ThreadLocalDemo03 {
 
-    private static ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    static  Map map = new ConcurrentHashMap();
 
     /**
      * *
@@ -31,13 +35,20 @@ public class ThreadLocalDemo03 {
             });
         }
         executorService.shutdown();
-        TheadLocalHolder.chear();
+        TheadLocalHolder.clear();
     }
 
     public String date(int i) {
         Date date = new Date(1000 * i);
         SimpleDateFormat simpleDateFormat = TheadLocalHolder.dateFormatThreadLocal.get();
-        System.out.println(System.identityHashCode(simpleDateFormat)); // 验证是否同一个对象（开多少个线程就会有多少个对象）
+        // 验证是否同一个对象（开多少个线程就会有多少个对象）
+        if (map.containsKey(simpleDateFormat)) {
+            System.out.println("命中一次");
+        } else {
+            map.put(simpleDateFormat, 1);
+            System.out.println("创建dateFormat对象");
+        }
+        // System.out.println(System.identityHashCode(simpleDateFormat));
         return simpleDateFormat.format(date);
     }
 }
@@ -46,7 +57,7 @@ class TheadLocalHolder {
     public static ThreadLocal<SimpleDateFormat> dateFormatThreadLocal =
             ThreadLocal.withInitial(() -> new SimpleDateFormat("mm:ss"));
 
-    public static void chear() {
+    public static void clear() {
         dateFormatThreadLocal.remove();
     }
 

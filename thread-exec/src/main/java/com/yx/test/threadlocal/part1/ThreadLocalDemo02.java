@@ -1,8 +1,7 @@
-package com.yx.test.threadlocal;
+package com.yx.test.threadlocal.part1;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,7 +39,14 @@ public class ThreadLocalDemo02 {
 
     public synchronized String date(int i) {
         Date date = new Date(1000 * i);
-        return simpleDateFormat.format(date);
+      // 方式1 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss"); // 每次调用都会创建一个对象、创建了1000个对象调用
+        //方式2 添加Synchronize 关键字、但是有点得不偿失、其他线程都得等待
+        synchronized (ThreadLocalDemo02.class){
+            return simpleDateFormat.format(date);
+        }
+        /*** 共用同一个日期格式对象 ，出现线程不安全问题
+         * return simpleDateFormat.format(date);
+         */
     }
 
 
