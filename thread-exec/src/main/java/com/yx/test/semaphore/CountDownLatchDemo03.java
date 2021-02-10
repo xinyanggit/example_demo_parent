@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 /**
  * 场景一：
  *  所有场景统一汇合之后然后进行
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2021年02月03日
  * @time 6:42 下午
  * @since JDK1.8

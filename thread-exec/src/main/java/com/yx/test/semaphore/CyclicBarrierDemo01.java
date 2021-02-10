@@ -6,7 +6,7 @@ import java.util.concurrent.*;
  * 场景：
  * 比如去海边游玩，三人自行车、需要等待三人才能开始
  * 下大巴车之后到海边有一段距离，所以就出现了必须要三个人之后才能启动自行车
- * @author yangxin@webull.com
+ * @author yangxin
  * @date 2021年02月04日
  * @time 9:17 上午
  * @since JDK1.8
