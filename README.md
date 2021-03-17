@@ -20,3 +20,7 @@
 
 ### thread-exec 
 多线程之间协同工作的场景
+
+### java-base-test
+java 基础一些APi使用
+验证一些简单demo

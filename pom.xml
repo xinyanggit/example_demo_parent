@@ -21,11 +21,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <modules>
         <module>design_pattern_demo</module>
         <module>sort-demo</module>
         <module>thread-exec</module>
+        <module>java-base-test</module>
     </modules>
+
     <build>
         <plugins>
             <plugin>
