@@ -7,7 +7,7 @@ import java.util.Base64;
 import java.util.Date;
 
 /**
- * @author yangxin@webull.com
+ * @author test
  * @date 2021年03月22日
  * @time 9:09 下午
  * @since JDK1.8
